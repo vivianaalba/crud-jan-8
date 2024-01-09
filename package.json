@@ -1,0 +1,14 @@
+{
+  "name": "crud-jan-8",
+  "version": "1.0.0",
+  "description": "web dev project",
+  "main": "index.js",
+  "scripts": {
+    "test": "TEST"
+  },
+  "author": "Viviana Alba",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
