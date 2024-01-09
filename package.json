@@ -4,11 +4,15 @@
   "description": "web dev project",
   "main": "index.js",
   "scripts": {
-    "test": "TEST"
+    "test": "TEST",
+    "dev": "nodemon server.js"
   },
   "author": "Viviana Alba",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }
