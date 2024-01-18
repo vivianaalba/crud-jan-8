@@ -7,10 +7,32 @@ const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const app = express();
 const PORT = 3000;
+// replaces connection code for security purposes
+require('dotenv').config({ path: '.env' });
 
 // remains above CRUD code
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
+
+MongoClient.connect(process.env.MONGO_URI)
+	.then(client => {
+		const db = client.db('practice');
+		const usersCollection = db.collection('users');	
+        
+        // returns credentials to console
+        // allows the client side to communicate with server
+        app.post('/users', (req, res) => {
+            usersCollection
+            .insertOne(req.body)
+            .then(result => {
+                res.redirect('/');
+            })
+            .catch(error => console.log(error))
+        })    
+	})
+	.catch(error => console.error(error))
 
 // when a webpage has an address that includes '/' we are making a GET request
 // requesting static or dynamic files stored in that address
@@ -18,11 +40,6 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 })
 
-// returns credentials to console
-// allows the client side to communicate with server
-app.post('/users', (req, res) => {
-    console.log(req.body);
-})
 
 // stays at the bottom
 app.listen(PORT, function() {
