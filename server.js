@@ -21,6 +21,16 @@ MongoClient.connect(process.env.MONGO_URI)
 		const db = client.db('practice');
 		const usersCollection = db.collection('users');	
         
+        app.get('/', (req, res) => {
+            usersCollection
+                .find()
+                .toArray()
+                .then(results => {
+                    res.render('index.ejs', { usersCollection: results })
+                })
+                .catch(error => console.error(error))
+        })
+
         // returns credentials to console
         // allows the client side to communicate with server
         app.post('/users', (req, res) => {

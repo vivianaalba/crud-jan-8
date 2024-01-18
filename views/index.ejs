@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <title>MY APP</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
     </head>
     <body>
-        <h1>This is my CRUD app</h1>
-
+        <h1>Enter user</h1>
+        <button id="update-button">Replace password</button>
         <form action="/users" method="POST">
             <input type="text" id="username" placeholder="Username" name="username" />
-            <input type="text" id="password" placeholder="Password" name="password" />
+            <input type="password" id="password" placeholder="Password" name="password" /> <!-- Use type="password" for sensitive information -->
             <button type="submit">Submit</button>
-          </form>
-
+        </form>
+        <ul class="users">
+            <% for(var i=0; i < usersCollection.length; i++) { %>
+                <li class="user">
+                    <!-- Output name from the iterated user object -->
+                    <span>
+                        <%= usersCollection[i].username %>
+                    </span>:
+                    <!-- Output quote from the iterated user object -->
+                    <span>
+                        <%= usersCollection[i].password %>
+                    </span>
+                </li>
+            <% } %>
+        </ul>
     </body>
 </html>
