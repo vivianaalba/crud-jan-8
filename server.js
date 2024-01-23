@@ -20,7 +20,8 @@ MongoClient.connect(process.env.MONGO_URI)
 	.then(client => {
 		const db = client.db('practice');
 		const usersCollection = db.collection('users');	
-        
+
+        // collection is being searched and then rendering what is contain in array at index.ejs
         app.get('/', (req, res) => {
             usersCollection
                 .find()
@@ -40,9 +41,10 @@ MongoClient.connect(process.env.MONGO_URI)
                 res.redirect('/');
             })
             .catch(error => console.log(error))
-        })    
+        }) 
+          
 	})
-	.catch(error => console.error(error))
+ 
 
 // when a webpage has an address that includes '/' we are making a GET request
 // requesting static or dynamic files stored in that address
