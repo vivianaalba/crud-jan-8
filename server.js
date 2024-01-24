@@ -42,7 +42,35 @@ MongoClient.connect(process.env.MONGO_URI)
             })
             .catch(error => console.log(error))
         }) 
-          
+    })
+
+        // logic for PUT request - should not be seen by the client side
+        // update info posted at the /users endpoint
+        app.put('/', (req, res) => {
+            usersCollection
+                // MongoDB method - find document that contains username and matches the one in our username field
+                // set password to something new
+                .findOneAndUpdate(
+                    { username: req.body.username },
+                    {
+                        $set: {
+                            username: req.body.username,
+                            password: req.body.password,
+                        },
+                    },
+                    {
+                        // meaning update and insert
+                        upsert: false,
+                    },
+                    {
+                        returnNewDocument: true
+                    }
+                )
+                .then(result => {
+                    res.json('Success')
+                    return res
+                })
+                .catch(error => console.error(error))
 	})
  
 
@@ -55,4 +83,5 @@ app.get('/', function (req, res) {
 
 // stays at the bottom
 app.listen(PORT, function() {
-    console.log(`Server is live! Listening at port ${PORT}`); })
+    console.log(`Server is live! Listening at port ${PORT}`); 
+})
