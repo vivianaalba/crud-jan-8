@@ -21,8 +21,8 @@ update.addEventListener('click', _ => {
         //reloads page
         .then(res => {
             console.log(`main.js res`, JSON.stringify(res));
+            window.location.reload(true);
             if (res.ok) return res.json();
-            window.location.reload(true)
         })
 
 })

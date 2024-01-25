@@ -42,8 +42,7 @@ MongoClient.connect(process.env.MONGO_URI)
             })
             .catch(error => console.log(error))
         })      
-        // logic for PUT request - should not be seen by the client side
-        // update info posted at the /users endpoint
+        
         app.put('/users', (req, res) => {
             usersCollection
                 .findOneAndUpdate(
@@ -55,7 +54,6 @@ MongoClient.connect(process.env.MONGO_URI)
                         },
                     },
                     {
-                        // meaning update and insert
                         upsert: false,
                     },
                     {
@@ -70,11 +68,67 @@ MongoClient.connect(process.env.MONGO_URI)
  
     })
 })
-
 .catch(error => console.log(error));
- 
 
-   
+
+
+
+// 	.then(client => {
+// 		const db = client.db('practice');
+// 		const usersCollection = db.collection('users');	
+
+//         // collection is being searched and then rendering what is contain in array at index.ejs
+//         app.get('/', (req, res) => {
+//             usersCollection
+//                 .find()
+//                 .toArray()
+//                 .then(results => {
+//                     res.render('index.ejs', { usersCollection: results })
+//                 })
+//                 .catch(error => console.error(error))
+//         })
+
+//         // returns credentials to console
+//         // allows the client side to communicate with server
+//         app.post('/users', (req, res) => {
+//             usersCollection
+//             .insertOne(req.body)
+//             .then(result => {
+//                 res.redirect('/');
+//             })
+//             .catch(error => console.log(error))
+//         }) 
+//                 // logic for PUT request - should not be seen by the client side
+//         // update info posted at the /users endpoint
+//         app.put('/users', (req, res) => {
+//             usersCollection
+//                 // MongoDB method - find document that contains username and matches the one in our username field
+//                 // set password to something new
+//                 .findOneAndUpdate(
+//                     { username: req.body.username },
+//                     {
+//                         $set: {
+//                             username: req.body.username,
+//                             password: req.body.password,
+//                         },
+//                     },
+//                     {
+//                         // meaning update and insert
+//                         upsert: false,
+//                     },
+//                     {
+//                         returnNewDocument: true
+//                     }
+//                 )
+//                 .then(result => {
+//                     res.json('Success')
+//                     return res
+//                 })
+//                 .catch(error => console.error(error))
+// 	})
+//  })
+
+ 
 
 // when a webpage has an address that includes '/' we are making a GET request
 // requesting static or dynamic files stored in that address
@@ -83,7 +137,9 @@ MongoClient.connect(process.env.MONGO_URI)
 // })
 
 
-// stays at the bottom
-app.listen(PORT, function () {
-    console.log(`Server is live! Listening at port http://localhost:${PORT}`);
-});
+// // stays at the bottom
+// app.listen(PORT, function() {
+//     console.log(`Server is live! Listening at port ${PORT}`); 
+// })
+
+//MongoClient.connect("mongodb+srv://vivianaalba7:KCLbxcUCWms6QmyO@cluster0.ljxpmcs.mongodb.net/")
