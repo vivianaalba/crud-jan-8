@@ -42,6 +42,7 @@ MongoClient.connect(process.env.MONGO_URI)
             })
             .catch(error => console.log(error))
         })      
+        
         // logic for PUT request - should not be seen by the client side
         // update info posted at the /users endpoint
         app.put('/users', (req, res) => {
@@ -67,7 +68,19 @@ MongoClient.connect(process.env.MONGO_URI)
                     return res
                 })
                 .catch(error => console.error(error))
- 
+    })
+
+    app.delete('/users', (req, res) => {
+        usersCollection
+            .deleteOne(
+                { username: req.body.username }
+            )
+            .then(result => {
+                console.log(`Deleted ${req.body.username}`)
+                console.log(result);
+                res.json('Deleted user')
+            })
+            .catch(error => console.error(error))
     })
 })
 

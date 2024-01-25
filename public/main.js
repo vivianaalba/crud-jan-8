@@ -1,3 +1,4 @@
+// UPDATE
 // reference and store update button
 const update = document.getElementById('update-button');
 
@@ -25,4 +26,27 @@ update.addEventListener('click', _ => {
             if (res.ok) return res.json();
         })
 
+})
+
+
+// DELETE
+const deleteButton = document.getElementById('delete-button');
+
+deleteButton.addEventListener('click', () => {
+    const username = document.getElementById("username").value;
+
+    fetch('/users', {
+        method: 'delete',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            username: username
+        }),
+    })
+    .then(res => {
+        console.log('deleted')
+        if (res.ok) return res.json();
+    })
+    .then(res =>{
+        window.location.reload(true)
+    })
 })
