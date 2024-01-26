@@ -47,6 +47,26 @@ app.post('/users', (req, res) => {
     })
 })
 
+app.post('/posts', (req, res) => {
+    const {title, body} = req.body;
+    //prisma client 'create'
+    prisma.post.create({
+        data: {
+            title,
+            body,
+        }
+    })
+    .then(result => {
+        res.redirect('/');
+    })
+    .catch(error => {
+        // Handle errors
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    })
+})
+
+
 app.get('/', async (req, res) => {
     const body = { users: null, posts: null }    
 
@@ -82,6 +102,17 @@ MongoClient.connect(process.env.MONGO_URI)
                 })
                 .catch(error => console.error(error))
         })    
+
+        // collection is being searched and then rendering what is contain in array at index.ejs
+        app.get('/', (req, res) => {
+            postsCollection
+                .find()
+                .toArray()
+                .then(results => {
+                    res.render('index.ejs', { postsCollection: results })
+                })
+                .catch(error => console.error(error))
+            }) 
 
         // returns credentials to console
         // allows the client side to communicate with server

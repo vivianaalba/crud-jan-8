@@ -34,8 +34,21 @@
             <button type="submit">Post</button>
         </form>
         <div>
-					<!-- add the posts object logic here -->
-					<!-- the posts should render here -->
+            <ul class="post">
+                <% for(var i=0; i < body.posts.length; i++) {%>
+                    <li class="posts">
+                        <!-- Output name from the iterated user object -->
+                        <span>
+                            <%= body.posts[i].title %>
+                        </span>:
+                        <!-- Output quote from the iterated user object -->
+                        <span>
+                            <%= body.posts[i].body %>
+                        </span>
+                    </li>
+                    <% } %>
+            </ul>
+        
         </div>
         <script src="/main.js"></script>
     </body>
