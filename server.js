@@ -16,6 +16,34 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
+// returns credentials to console
+// allows the client side to communicate with server
+// must be global
+app.post('/users', (req, res) => {
+    const {username, password} = req.body;
+    //prisma client 'create'
+    prisma.user.create({
+        data: {
+            username,
+            password,
+            posts: {
+                create: {
+                    title: 'My first post',
+                    body: 'Lots of really interesting stuff',
+                },
+            },
+        }
+    })
+    .then(result => {
+        res.redirect('/');
+    })
+    .catch(error => {
+        // Handle errors
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    })
+})
+
 MongoClient.connect(process.env.MONGO_URI)
 	.then(client => {
 		const db = client.db('practice');
@@ -30,18 +58,19 @@ MongoClient.connect(process.env.MONGO_URI)
                     res.render('index.ejs', { usersCollection: results })
                 })
                 .catch(error => console.error(error))
-        })
+        })    
 
         // returns credentials to console
         // allows the client side to communicate with server
-        app.post('/users', (req, res) => {
-            usersCollection
-            .insertOne(req.body)
-            .then(result => {
-                res.redirect('/');
-            })
-            .catch(error => console.log(error))
-        })      
+        // made this request global
+        // app.post('/users', (req, res) => {
+        //     usersCollection
+        //     .insertOne(req.body)
+        //     .then(result => {
+        //         res.redirect('/');
+        //     })
+        //     .catch(error => console.log(error))
+        // })      
         
         // logic for PUT request - should not be seen by the client side
         // update info posted at the /users endpoint

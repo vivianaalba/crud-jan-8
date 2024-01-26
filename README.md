@@ -15,3 +15,7 @@
 <br/>npm install nodemon --save-dev
 <br/>npm install body-parser --save
 <br/>npm install mongodb --save
+
+
+<br/>npm install @prisma/client
+<br/>npx prisma generate
