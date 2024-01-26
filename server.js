@@ -16,6 +16,9 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
+
 // returns credentials to console
 // allows the client side to communicate with server
 // must be global
@@ -42,6 +45,26 @@ app.post('/users', (req, res) => {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
     })
+})
+
+app.get('/', async (req, res) => {
+    const body = { users: null, posts: null }    
+
+    const users = await prisma.user
+    .findMany()
+        .then(results => {
+            body.users = results;
+    })
+    .catch(error => console.error(error))
+
+    const posts = await prisma.post
+    .findMany()
+        .then(results => {
+            body.posts = results;
+    })
+    .catch(error => console.error(error));
+
+    res.render('index.ejs', {body: body})
 })
 
 MongoClient.connect(process.env.MONGO_URI)
@@ -115,11 +138,11 @@ MongoClient.connect(process.env.MONGO_URI)
 
 .catch(error => console.log(error));
  
-
    
 
 // when a webpage has an address that includes '/' we are making a GET request
 // requesting static or dynamic files stored in that address
+
 // app.get('/', function (req, res) {
 //     res.sendFile(__dirname + '/index.html');
 // })
