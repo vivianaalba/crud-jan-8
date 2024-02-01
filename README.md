@@ -1,6 +1,6 @@
 # About
 <br/>This application will be used to store user data in a mongoDB database.
-<br/>Purpose: Read, create, update, and delete user passwords. 
+<br/>Purpose: Read, create, update, and delete data in the application, inclusding username, password, post title, and post body. 
 
 ## Technologies
 <br/>Tech Stack: VSCode, Javascript, MongoDB
@@ -21,3 +21,6 @@
 <br/>npx prisma init
 <br/>npm install @prisma/client
 <br/>npx prisma generate
+
+##### Running Development Environment
+<br/>npm run dev
